@@ -9,8 +9,9 @@ import axios from 'axios';
 const Game = () => {
   const [randomWord, setRandomWord] = useState('');
   const [playGame, setPlayGame] = useState(true);
-  const [correctLetters, setCorrectLetters] = useState([]);
-  const [wrongLetters, setWrongLetters] = useState([]);
+  const [correctGuesses, setCorrectGuesses] = useState([]);
+  const [wrongGuesses, setWrongGuesses] = useState([]);
+  const [numberOfGuesses, setNumberOfGuesses] = useState(0);
   const [notification, setNotification] = useState(false);
   const [showPopup, setShowPopup] = useState(false);
   const [win, setWin] = useState(false);
@@ -34,42 +35,60 @@ const Game = () => {
       if (playGame && keyCode >= 65 && keyCode <= 90) {
         let letter = key.toUpperCase();
         if (randomWord.includes(letter)) {
-          if (!correctLetters.includes(letter)) {
-            setCorrectLetters((curr) => [...curr, letter]);
+          if (!correctGuesses.includes(letter)) {
+            setCorrectGuesses((curr) => [...curr, letter]);
           } else {
             setNotification(true);
           }
         } else {
-          if (wrongLetters.length === 5) {
-            setPlayGame(false);
-            setShowPopup(true);
-            setWin(false);
-          }
-          if (!wrongLetters.includes(letter)) {
-            setWrongLetters((curr) => [...curr, letter]);
+          if (!wrongGuesses.includes(letter)) {
+            setWrongGuesses((curr) => [...curr, letter]);
+            setNumberOfGuesses(numberOfGuesses + 1);
           } else {
             setNotification(true);
           }
         }
       }
     };
+    const checkWin = () => {
+      setWin(true);
+      setShowPopup(true);
+      setPlayGame(false);
+      randomWord.split('').forEach((letter) => {
+        if (!correctGuesses.includes(letter)) {
+          setWin(false);
+          setShowPopup(false);
+          setPlayGame(true);
+        }
+      });
+      if (numberOfGuesses === 6) {
+        setShowPopup(true);
+        setWin(false);
+        setPlayGame(false);
+      }
+    };
+    checkWin();
     window.addEventListener('keydown', handleKeydown);
     return () => window.removeEventListener('keydown', handleKeydown);
-  }, [playGame, randomWord, wrongLetters, correctLetters]);
+    
+  }, [playGame, randomWord, correctGuesses, wrongGuesses, numberOfGuesses]);
 
-  const playAgain = () => {};
+  const playAgain = () => {
+    window.location.reload();
+  };
 
   return (
     <div className='game'>
-      {randomWord}
-      <Figure wrongLetters={wrongLetters} />
+      <Figure wrongGuesses={wrongGuesses} />
       <div className='word-container'>
-        <Word randomWord={randomWord} correctLetters={correctLetters} />
-        {wrongLetters.length !== 0 && (
-          <WrongLetters wrongLetters={wrongLetters} />
+        <Word randomWord={randomWord} correctGuesses={correctGuesses} />
+        {wrongGuesses.length !== 0 && (
+          <WrongLetters wrongGuesses={wrongGuesses} />
         )}
         {notification && <Notification />}
-        {showPopup && <Popup win={win} />}
+        {showPopup && (
+          <Popup randomWord={randomWord} win={win} playAgain={playAgain} />
+        )}
       </div>
     </div>
   );

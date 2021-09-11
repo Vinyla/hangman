@@ -37,18 +37,9 @@
 .word {
   display: flex;
   margin-top: 60px;
-}
-
-.word span {
-  border-bottom: 3px solid #57cc99;
-  display: inline-flex;
-  font-size: 30px;
-  align-items: center;
-  justify-content: center;
-  margin: 0 3px;
-  color: white;
-  height: 50px;
-  width: 30px;
+  font-size: 32px;
+  font-weight: 700;
+  color: #57cc99;
 }
 
 .wrong-letters {
@@ -71,27 +62,27 @@
 }
 
 .notification {
-  color: #57cc99;
+  border-radius: 5px;
+  background-color: #57cc99;
+  padding: 6px;
   font-size: 20px;
   font-weight: 700;
 }
 
 .notification p {
-  margin-top: 40px;
-  text-align: start;
+  margin: 0;
+  color: #22577a;
+  text-align: center;
 }
-/* 
-.popup-container {
-  display: none;
-} */
 
 .popup {
+  margin: 10px;
   padding: 12px;
   height: 100px;
   width: 300px;
   text-align: center;
   border-radius: 10px;
-  background-color: #57cc9995;
+  background-color: #57cc99;
 }
 
 .popup p {

@@ -5,13 +5,13 @@ const Figure = (props) => {
       <line x1='161' y1='25' x2='161' y2='49' />
       <line x1='163' y1='26' x2='60' y2='28' />
       <line x1='61' y1='26' x2='61' y2='316' />
-      {props.wrongLetters.length > 0 && (
+      {props.wrongGuesses.length > 0 && (
         <ellipse fill='white' cx='160' cy='77' id='svg_1' rx='25' ry='26' />
       )}
-      {props.wrongLetters.length > 1 && (
+      {props.wrongGuesses.length > 1 && (
         <line stroke='#ffffff' x1='157' y1='100' x2='157' y2='190' />
       )}
-      {props.wrongLetters.length > 2 && (
+      {props.wrongGuesses.length > 2 && (
         <line
           fill='none'
           stroke='#ffffff'
@@ -21,7 +21,7 @@ const Figure = (props) => {
           y2='107'
         />
       )}
-      {props.wrongLetters.length > 3 && (
+      {props.wrongGuesses.length > 3 && (
         <line
           y2='108'
           x2='113'
@@ -31,7 +31,7 @@ const Figure = (props) => {
           fill='none'
         />
       )}
-      {props.wrongLetters.length > 4 && (
+      {props.wrongGuesses.length > 4 && (
         <line
           fill='none'
           stroke='#ffffff'
@@ -42,7 +42,7 @@ const Figure = (props) => {
         />
       )}
 
-      {props.wrongLetters.length > 5 && (
+      {props.wrongGuesses.length > 5 && (
         <line
           fill='none'
           stroke='#ffffff'
