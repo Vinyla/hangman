@@ -11,10 +11,7 @@ const Game = () => {
   const [playGame, setPlayGame] = useState(true);
   const [correctGuesses, setCorrectGuesses] = useState([]);
   const [wrongGuesses, setWrongGuesses] = useState([]);
-  const [numberOfGuesses, setNumberOfGuesses] = useState(0);
   const [notification, setNotification] = useState(false);
-  const [showPopup, setShowPopup] = useState(false);
-  const [win, setWin] = useState(false);
 
   useEffect(() => {
     axios
@@ -29,11 +26,12 @@ const Game = () => {
   }, []);
 
   useEffect(() => {
+    setNotification(false);
+    console.log(randomWord);
     const handleKeydown = (event) => {
-      setNotification(false);
       const { key, keyCode } = event;
       if (playGame && keyCode >= 65 && keyCode <= 90) {
-        let letter = key.toUpperCase();
+        const letter = key.toUpperCase();
         if (randomWord.includes(letter)) {
           if (!correctGuesses.includes(letter)) {
             setCorrectGuesses((curr) => [...curr, letter]);
@@ -43,35 +41,16 @@ const Game = () => {
         } else {
           if (!wrongGuesses.includes(letter)) {
             setWrongGuesses((curr) => [...curr, letter]);
-            setNumberOfGuesses(numberOfGuesses + 1);
           } else {
             setNotification(true);
           }
         }
       }
     };
-    const checkWin = () => {
-      setWin(true);
-      setShowPopup(true);
-      setPlayGame(false);
-      randomWord.split('').forEach((letter) => {
-        if (!correctGuesses.includes(letter)) {
-          setWin(false);
-          setShowPopup(false);
-          setPlayGame(true);
-        }
-      });
-      if (numberOfGuesses === 6) {
-        setShowPopup(true);
-        setWin(false);
-        setPlayGame(false);
-      }
-    };
-    checkWin();
     window.addEventListener('keydown', handleKeydown);
+
     return () => window.removeEventListener('keydown', handleKeydown);
-    
-  }, [playGame, randomWord, correctGuesses, wrongGuesses, numberOfGuesses]);
+  }, [correctGuesses, wrongGuesses, playGame, randomWord]);
 
   const playAgain = () => {
     window.location.reload();
@@ -86,9 +65,13 @@ const Game = () => {
           <WrongLetters wrongGuesses={wrongGuesses} />
         )}
         {notification && <Notification />}
-        {showPopup && (
-          <Popup randomWord={randomWord} win={win} playAgain={playAgain} />
-        )}
+        <Popup
+          randomWord={randomWord}
+          correctGuesses={correctGuesses}
+          wrongGuesses={wrongGuesses}
+          setPlayGame={setPlayGame}
+          playAgain={playAgain}
+        />
       </div>
     </div>
   );

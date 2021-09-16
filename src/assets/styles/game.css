@@ -45,7 +45,6 @@
 .wrong-letters {
   display: flex;
   align-items: center;
-  padding: 12px;
   color: white;
   font-size: 20px;
 }
@@ -61,9 +60,24 @@
   margin: 4px;
 }
 
+.letter {
+  border-bottom: 3px solid #57cc99;
+  display: inline-flex;
+  font-size: 30px;
+  align-items: center;
+  justify-content: center;
+  margin: 0 3px;
+  height: 50px;
+  width: 20px;
+}
+
 .notification {
+  padding: 15px 20px;
+  bottom: -50px;
+  transition: transform 0.3s ease-in-out;
   border-radius: 5px;
   background-color: #57cc99;
+  margin-top: 10px;
   padding: 6px;
   font-size: 20px;
   font-weight: 700;
@@ -75,11 +89,21 @@
   text-align: center;
 }
 
+.popup-container {
+  background-color: rgba(0, 0, 0, 0.3);
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 6px;
+}
+
 .popup {
-  margin: 10px;
-  padding: 12px;
-  height: 100px;
-  width: 300px;
+  padding: 20px;
   text-align: center;
   border-radius: 10px;
   background-color: #57cc99;

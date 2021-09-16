@@ -1,21 +1,40 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { checkWin } from '../helper';
 
 const Popup = (props) => {
+  let message = '';
+  let revealWord = '';
+  let playable = true;
+
+  if (
+    checkWin(props.correctGuesses, props.wrongGuesses, props.randomWord) ===
+    'win'
+  ) {
+    message = 'Congratulations! You won!';
+    playable = false;
+  } else if (
+    checkWin(props.correctGuesses, props.wrongGuesses, props.randomWord) ===
+    'lose'
+  ) {
+    message = 'Unfortunately you lost.';
+    revealWord = `...the word was: ${props.randomWord}`;
+    playable = false;
+  }
+
+  useEffect(() => {
+    props.setPlayGame(playable);
+  }, [playable, props]);
+
   return (
-    <div>
-      {!props.win && (
-        <div className='popup'>
-          <p>Unfortunately you lost.</p>
-          <p>...the word was: {props.randomWord}</p>
-          <button onClick={props.playAgain}>Play Again</button>
-        </div>
-      )}
-      {props.win && (
-        <div className='popup'>
-          <p>Congratulations! You won!</p>
-          <button onClick={props.playAgain}>Play Again</button>
-        </div>
-      )}
+    <div
+      className='popup-container'
+      style={message !== '' ? { display: 'flex' } : {}}
+    >
+      <div className='popup'>
+        <p>{message}</p>
+        <p>{revealWord}</p>
+        <button onClick={props.playAgain}>Play Again</button>
+      </div>
     </div>
   );
 };
